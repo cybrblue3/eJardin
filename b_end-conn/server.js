@@ -19,11 +19,11 @@ app.use(cors());
 app.use(express.json());
 
 // Serve static files from the "public" folder (or "build" if using React)
-app.use(express.static(path.join(__dirname))); // Add this line
+app.use(express.static(path.join(__dirname, '../'))); // Add this line
 
 // Define a route for the root path
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html')); // Add this line
+  res.sendFile(path.join(__dirname, '../','index.html')); // Add this line
 });
 
 const PORT = process.env.PORT || 5000;
