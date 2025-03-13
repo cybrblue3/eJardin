@@ -4,6 +4,7 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { Pool } = require("pg");
+const path = require('path'); // Add this line
 
 const app = express();
 const pool = new Pool({
@@ -17,6 +18,18 @@ const pool = new Pool({
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from the "public" folder (or "build" if using React)
+app.use(express.static(path.join(__dirname, 'public'))); // Add this line
+
+// Define a route for the root path
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html')); // Add this line
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Servidor corriendo en puerto ${PORT}`));
+
+// Your existing routes
 app.post("/login", async (req, res) => {
     const { username, password } = req.body;
 
@@ -68,6 +81,3 @@ app.get("/user", async (req, res) => {
         res.status(401).json({ message: "Token inválido" });
     }
 });
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Servidor corriendo en puerto ${PORT}`));
