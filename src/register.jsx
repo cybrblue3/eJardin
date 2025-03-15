@@ -23,7 +23,7 @@ const Register = () => {
             }else if(error.request){
                 setMessage('Error: No se recibio respuesta del servidor');            
         }else{
-            setMessage('Error: ${error.message}');
+            setMessage(`Error: ${error.message}`);
         }
       }   
     };
