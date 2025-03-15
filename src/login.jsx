@@ -2,7 +2,7 @@ import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import logo from './assets/logo.svg'; // Import the logo image
+import logo from './assets/logo.svg';
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -44,7 +44,7 @@ const Login = () => {
               <div className="row g-0">
                 <div className="col-lg-6 p-5 d-flex flex-column justify-content-center">
                   <div className="text-center">
-                    <img src={logo} alt="logo" style={{ width: "150px" }} /> {/* Use the imported logo */}
+                    <img src={logo} alt="logo" style={{ width: "150px" }} />
                     <h4 className="mt-3 mb-4">Welcome to eJardin</h4>
                   </div>
 
