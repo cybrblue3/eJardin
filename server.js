@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import pkg from 'pg'; // Import the default export
+import pkg from 'pg';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
@@ -12,7 +12,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const { Pool } = pkg; // Destructure Pool from the default export
+const { Pool } = pkg;
 
 const app = express();
 const pool = new Pool({
@@ -22,8 +22,17 @@ const pool = new Pool({
   password: process.env.DB_PASS,
   port: process.env.DB_PORT,
   ssl: {
-    rejectUnauthorized: false
+    rejectUnauthorized: false,
   },
+});
+
+// Test the database connection
+pool.query('SELECT NOW()', (err, res) => {
+  if (err) {
+    console.error('❌ Error connecting to the database:', err);
+  } else {
+    console.log('✅ Connected to the database:', res.rows[0]);
+  }
 });
 
 app.use(cors());
@@ -37,12 +46,13 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Servidor corriendo en puerto ${PORT}`));
-
-// Your existing routes
+// Routes
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Username and password are required' });
+  }
 
   try {
     const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
@@ -53,6 +63,7 @@ app.post('/login', async (req, res) => {
 
     const user = result.rows[0];
     const validPassword = await bcrypt.compare(password, user.password);
+
     if (!validPassword) {
       return res.status(400).json({ message: 'Contraseña incorrecta' });
     }
@@ -70,7 +81,6 @@ app.get('/user', async (req, res) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    console.log('🚫 Solicitud sin token');
     return res.status(401).json({ message: 'No autorizado' });
   }
 
@@ -78,7 +88,6 @@ app.get('/user', async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('✅ Token decodificado:', decoded);
 
     const result = await pool.query('SELECT username, name, rol FROM users WHERE username = $1', [decoded.username]);
 
@@ -92,3 +101,12 @@ app.get('/user', async (req, res) => {
     res.status(401).json({ message: 'Token inválido' });
   }
 });
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error('🔥 Unhandled error:', err);
+  res.status(500).json({ message: 'Internal server error' });
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Servidor corriendo en puerto ${PORT}`));
