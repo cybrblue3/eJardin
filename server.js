@@ -21,7 +21,12 @@ const pool = new Pool({
   database: process.env.DB_NAME,
   password: process.env.DB_PASS,
   port: process.env.DB_PORT,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
+
+module.exports = pool;
 
 app.use(cors());
 app.use(express.json());
