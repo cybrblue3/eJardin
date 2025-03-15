@@ -26,8 +26,6 @@ const pool = new Pool({
   },
 });
 
-module.exports = pool;
-
 app.use(cors());
 app.use(express.json());
 
