@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { Pool } from 'pg';
+import pkg from 'pg'; // Import the default export
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
@@ -11,6 +11,8 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const { Pool } = pkg; // Destructure Pool from the default export
 
 const app = express();
 const pool = new Pool({
