@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "node b_end-conn/server.js",
+    "start": "node server.js",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
@@ -12,7 +12,13 @@
   },
   "dependencies": {
     "axios": "^1.8.2",
+    "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.14.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.3.0"
