@@ -14,13 +14,12 @@ const __dirname = path.dirname(__filename);
 
 const { Pool } = pkg;
 
-const app = express();
+// Construct and log the connection string
+const connectionString = `postgres://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+console.log('Database Connection String:', connectionString);
+
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASS,
-  port: process.env.DB_PORT,
+  connectionString: connectionString,
   ssl: {
     rejectUnauthorized: false,
   },
@@ -35,6 +34,7 @@ pool.query('SELECT NOW()', (err, res) => {
   }
 });
 
+const app = express();
 app.use(cors());
 app.use(express.json());
 
