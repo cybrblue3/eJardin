@@ -14,7 +14,7 @@ const Register = () => {
         e.preventDefault();
 
         try{
-            const response = await axios.post('postgres://ejardindb_user:r6kgr2EawKlJcZK2Ycg2vnDurrKZpN8f@dpg-cv9fnc2n91rc73db3hrg-a/ejardindb', form);
+            const response = await axios.post('postgresql://ejardindb_user:r6kgr2EawKlJcZK2Ycg2vnDurrKZpN8f@dpg-cv9fnc2n91rc73db3hrg-a.oregon-postgres.render.com/ejardindb', form);
             setMessage(response.data.message);
             setForm({ username: '', name: '', password: '', rol: '' });
         }catch (error){
