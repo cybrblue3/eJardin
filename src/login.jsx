@@ -13,7 +13,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("postgresql://ejardindb_user:r6kgr2EawKlJcZK2Ycg2vnDurrKZpN8f@dpg-cv9fnc2n91rc73db3hrg-a.oregon-postgres.render.com/ejardindb", {
+      const response = await fetch("http://localhost:10000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -79,6 +79,6 @@ const Login = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Login;

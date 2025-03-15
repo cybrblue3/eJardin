@@ -35,7 +35,10 @@ pool.query('SELECT NOW()', (err, res) => {
 });
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', // Replace with your frontend URL
+  credentials: true,
+}));
 app.use(express.json());
 
 // Serve static files from the React app
@@ -47,6 +50,27 @@ app.get('*', (req, res) => {
 });
 
 // Routes
+app.post('/register', async (req, res) => {
+  const { username, name, password, rol } = req.body;
+
+  if (!username || !name || !password || !rol) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const result = await pool.query(
+      'INSERT INTO users (username, name, password, rol) VALUES ($1, $2, $3, $4) RETURNING *',
+      [username, name, hashedPassword, rol]
+    );
+
+    res.status(201).json({ message: 'User registered successfully', user: result.rows[0] });
+  } catch (error) {
+    console.error('🔥 Error during registration:', error);
+    res.status(500).json({ message: 'Error during registration' });
+  }
+});
+
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
