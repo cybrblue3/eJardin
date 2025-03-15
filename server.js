@@ -15,7 +15,7 @@ const __dirname = path.dirname(__filename);
 const { Pool } = pkg;
 
 // Construct and log the connection string
-const connectionString = process.env.DATABASE_URL || `postgres://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+const connectionString = process.env.DATABASE_URL || `postgresql://ejardindb_user:r6kgr2EawKlJcZK2Ycg2vnDurrKZpN8f@dpg-cv9fnc2n91rc73db3hrg-a/ejardindb${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
 console.log('Database Connection String:', connectionString);
 
 const pool = new Pool({
@@ -36,7 +36,7 @@ pool.query('SELECT NOW()', (err, res) => {
 
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:5173', // Replace with your frontend URL
+  origin: 'https://ejardin.onrender.com', // Replace with your frontend URL
   credentials: true,
 }));
 app.use(express.json());
