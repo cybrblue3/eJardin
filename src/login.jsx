@@ -43,7 +43,7 @@ const Login = () => {
               <div className="row g-0">
                 <div className="col-lg-6 p-5 d-flex flex-column justify-content-center">
                   <div className="text-center">
-                    <img src="../src/assets/logo.svg" alt="logo" style={{ width: "150px" }} />
+                    <img src="./assets/logo.svg" alt="logo" style={{ width: "150px" }} />
                     <h4 className="mt-3 mb-4">Welcome to eJardin</h4>
                   </div>
 
